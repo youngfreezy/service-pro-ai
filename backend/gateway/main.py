@@ -1,4 +1,4 @@
-"""FastAPI gateway for the PlumbPro AI platform.
+"""FastAPI gateway for the ServicePro AI platform.
 
 Provides the REST + SSE API that the Next.js frontend consumes.
 Manages the LangGraph pipeline lifecycle, SSE streaming, and HITL flow.
@@ -65,7 +65,7 @@ async def lifespan(app: FastAPI):
     4. Attach to app.state
     """
     settings = get_settings()
-    logger.info("Starting PlumbPro AI gateway (log_level=%s)", settings.LOG_LEVEL)
+    logger.info("Starting ServicePro AI gateway (log_level=%s)", settings.LOG_LEVEL)
 
     # --- Build the LangGraph router pipeline ---
     from backend.orchestrator.router.graph import build_router
@@ -129,7 +129,7 @@ async def lifespan(app: FastAPI):
     yield
 
     # --- Shutdown ---
-    logger.info("Shutting down PlumbPro AI gateway")
+    logger.info("Shutting down ServicePro AI gateway")
 
     try:
         await redis_client.close()
@@ -148,12 +148,26 @@ async def lifespan(app: FastAPI):
 def create_app() -> FastAPI:
     """Application factory."""
     app = FastAPI(
-        title="PlumbPro AI API",
+        title="ServicePro AI API",
         version="0.1.0",
         lifespan=lifespan,
     )
 
-    # --- CORS ---
+    # Starlette middleware execution order is REVERSED from registration.
+    # Last registered = first to run on incoming request.
+    # Desired request flow: CORS -> JWT Auth -> CSRF -> Rate Limiter -> Route
+    # So register in reverse (innermost first):
+
+    from backend.gateway.middleware.rate_limit import attach_rate_limiter
+    attach_rate_limiter(app)
+
+    from backend.gateway.middleware.csrf import attach_csrf_protection
+    attach_csrf_protection(app)
+
+    from backend.gateway.middleware.jwt_auth import attach_jwt_auth
+    attach_jwt_auth(app)
+
+    # --- CORS (must be LAST so it's outermost = runs first) ---
     _origins = [
         "http://localhost:5100",
         "https://localhost:5100",
@@ -165,25 +179,11 @@ def create_app() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=_origins,
-        allow_origin_regex=r"https://(plumbpro(-[a-z0-9]+)?\.vercel\.app|([a-z]+-)+[a-z0-9]+\.up\.railway\.app|([a-z]+\.)?plumbpro\.ai)",
+        allow_origin_regex=r"https://(service-pro(-[a-z0-9]+)?\.vercel\.app|([a-z]+-)+[a-z0-9]+\.up\.railway\.app|([a-z]+\.)?servicepro\.ai)",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-    # Starlette middleware execution order is REVERSED from registration.
-    # Last registered = first to run on incoming request.
-    # Desired request flow: JWT Auth -> CSRF -> Rate Limiter -> Route
-    # So register in reverse:
-
-    from backend.gateway.middleware.rate_limit import attach_rate_limiter
-    attach_rate_limiter(app)
-
-    from backend.gateway.middleware.csrf import attach_csrf_protection
-    attach_csrf_protection(app)
-
-    from backend.gateway.middleware.jwt_auth import attach_jwt_auth
-    attach_jwt_auth(app)
 
     # --- Routes ---
     from backend.gateway.routes.health import router as health_router

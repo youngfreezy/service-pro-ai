@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { apiFetch } from "@/lib/api";
+import { getAppName } from "@/lib/domain";
 
 const registerSchema = Yup.object({
   companyName: Yup.string()
@@ -25,6 +26,7 @@ const registerSchema = Yup.object({
 
 export default function RegisterPage() {
   const router = useRouter();
+  const appName = getAppName();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4 py-12">
@@ -35,7 +37,7 @@ export default function RegisterPage() {
             <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
               <Wrench className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold">PlumbPro AI</span>
+            <span className="text-2xl font-bold">{appName}</span>
           </Link>
           <h1 className="text-2xl font-bold">Create your account</h1>
           <p className="text-muted-foreground mt-1">

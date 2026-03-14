@@ -8,7 +8,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-log() { echo -e "${GREEN}[plumbpro]${NC} $*"; }
+log() { echo -e "${GREEN}[servicepro]${NC} $*"; }
 
 # Kill backend (uvicorn on port 8000)
 BACKEND_PIDS=$(lsof -ti:8000 2>/dev/null || true)

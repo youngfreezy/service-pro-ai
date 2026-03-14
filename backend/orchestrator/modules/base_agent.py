@@ -1,4 +1,4 @@
-"""Base ReAct agent runner for PlumbPro AI modules.
+"""Base ReAct agent runner for ServicePro AI modules.
 
 Instead of hardcoded LangGraph node chains, each module runs a ReAct loop
 where Claude picks tools dynamically based on the situation.  This is the

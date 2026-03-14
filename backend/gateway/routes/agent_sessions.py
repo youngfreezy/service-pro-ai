@@ -129,7 +129,7 @@ def _require_auth(request: Request) -> tuple[str, str, str]:
 
 
 # ---------------------------------------------------------------------------
-# Status messages for PlumbPro AI modules
+# Status messages for ServicePro AI modules
 # ---------------------------------------------------------------------------
 
 STATUS_MESSAGES = {

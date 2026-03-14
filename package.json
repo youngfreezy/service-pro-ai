@@ -1,5 +1,5 @@
 {
-  "name": "plumbpro-ai",
+  "name": "service-pro-ai",
   "private": true,
   "scripts": {
     "start": "bash ./scripts/start-app.sh",

@@ -1,4 +1,4 @@
-"""Thin LangGraph router for PlumbPro AI.
+"""Thin LangGraph router for ServicePro AI.
 
 This is intentionally minimal — the real intelligence lives inside each
 module's ReAct agent (see ``base_agent.run_react_agent``).  The graph
@@ -25,7 +25,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import interrupt
 
 from backend.orchestrator.modules.base_agent import run_react_agent
-from backend.orchestrator.router.state import PlumbProState
+from backend.orchestrator.router.state import ServiceProState
 from backend.shared.event_bus import emit_agent_event
 from backend.shared.llm import get_light_model, invoke_with_retry
 
@@ -110,7 +110,7 @@ def _load_module(module_name: str) -> Any:
 # -----------------------------------------------------------------------
 
 
-async def classify_request(state: PlumbProState) -> Dict[str, Any]:
+async def classify_request(state: ServiceProState) -> Dict[str, Any]:
     """Use the light model to classify the user's request into a module."""
     session_id = state["session_id"]
     request = state["request"]
@@ -180,7 +180,7 @@ async def classify_request(state: PlumbProState) -> Dict[str, Any]:
         }
 
 
-async def run_module(state: PlumbProState) -> Dict[str, Any]:
+async def run_module(state: ServiceProState) -> Dict[str, Any]:
     """Load the target module's agent and run the ReAct loop."""
     module_name = state["module"]
     session_id = state["session_id"]
@@ -232,7 +232,7 @@ async def run_module(state: PlumbProState) -> Dict[str, Any]:
     }
 
 
-async def check_hitl(state: PlumbProState) -> Dict[str, Any]:
+async def check_hitl(state: ServiceProState) -> Dict[str, Any]:
     """Check whether the module result requires human-in-the-loop approval.
 
     For modules in ``_HITL_MODULES`` (estimates, permits, communication),
@@ -289,12 +289,12 @@ async def check_hitl(state: PlumbProState) -> Dict[str, Any]:
 
 
 def build_router(checkpointer: Any = None) -> Any:
-    """Build and compile the PlumbPro orchestrator graph.
+    """Build and compile the ServicePro orchestrator graph.
 
     Returns a compiled LangGraph ``StateGraph`` ready to be invoked or
     streamed.
     """
-    graph = StateGraph(PlumbProState)
+    graph = StateGraph(ServiceProState)
 
     # Add nodes
     graph.add_node("classify_request", classify_request)

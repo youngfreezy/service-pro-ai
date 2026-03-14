@@ -29,4 +29,4 @@ async def ensure_all_tables() -> None:
     await ensure_users_table()
     await ensure_jobs_table()
     await ensure_agent_sessions_table()
-    logger.info("All PlumbPro tables ensured")
+    logger.info("All ServicePro tables ensured")

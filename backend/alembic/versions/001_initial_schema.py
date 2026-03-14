@@ -1,4 +1,4 @@
-"""Initial schema — all core PlumbPro AI tables.
+"""Initial schema — all core ServicePro AI tables.
 
 Revision ID: 001
 Revises:

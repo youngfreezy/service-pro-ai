@@ -1,4 +1,4 @@
-"""LLM client factory for PlumbPro AI.
+"""LLM client factory for ServicePro AI.
 
 Provides pre-configured LangChain chat model instances for the different
 tiers (default, premium, light) used throughout the orchestrator.

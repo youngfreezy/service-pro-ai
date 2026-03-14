@@ -17,10 +17,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const TEAM_MEMBERS = [
-  { id: "t1", name: "Mike Torres", role: "Lead Plumber", email: "mike@plumbpro.com", phone: "(555) 111-2222" },
-  { id: "t2", name: "Sarah Kim", role: "Journeyman Plumber", email: "sarah@plumbpro.com", phone: "(555) 222-3333" },
-  { id: "t3", name: "Dave Reynolds", role: "Apprentice", email: "dave@plumbpro.com", phone: "(555) 333-4444" },
-  { id: "t4", name: "Lisa Chen", role: "Office Manager", email: "lisa@plumbpro.com", phone: "(555) 444-5555" },
+  { id: "t1", name: "Mike Torres", role: "Lead Plumber", email: "mike@example.com", phone: "(555) 111-2222" },
+  { id: "t2", name: "Sarah Kim", role: "Journeyman Plumber", email: "sarah@example.com", phone: "(555) 222-3333" },
+  { id: "t3", name: "Dave Reynolds", role: "Apprentice", email: "dave@example.com", phone: "(555) 333-4444" },
+  { id: "t4", name: "Lisa Chen", role: "Office Manager", email: "lisa@example.com", phone: "(555) 444-5555" },
 ];
 
 const roleBadgeColors: Record<string, string> = {
@@ -33,7 +33,7 @@ const roleBadgeColors: Record<string, string> = {
 export default function SettingsPage() {
   const [companyName, setCompanyName] = useState("PlumbPro Services LLC");
   const [companyPhone, setCompanyPhone] = useState("(555) 100-2000");
-  const [companyEmail, setCompanyEmail] = useState("office@plumbpro.com");
+  const [companyEmail, setCompanyEmail] = useState("office@example.com");
   const [companyAddress, setCompanyAddress] = useState("500 Commerce Dr, Suite 200, Springfield, IL 62701");
   const [zipCodes, setZipCodes] = useState("62701, 62702, 62703, 62704, 62707");
   const [workStart, setWorkStart] = useState("07:00");

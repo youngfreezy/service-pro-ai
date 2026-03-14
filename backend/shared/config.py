@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     ANTHROPIC_BROWSER_MODEL: str = "claude-sonnet-4-5"
 
     # --- Postgres ---
-    DATABASE_URL: str = "postgresql://plumbpro:change_me@localhost:5435/plumbpro"
+    DATABASE_URL: str = "postgresql://servicepro:change_me@localhost:5435/servicepro"
 
     # --- Redis ---
     REDIS_URL: str = "redis://:change_me@localhost:6381"
@@ -65,7 +65,7 @@ class Settings(BaseSettings):
     # --- LangSmith ---
     LANGCHAIN_TRACING_V2: bool = False
     LANGCHAIN_API_KEY: Optional[str] = None
-    LANGCHAIN_PROJECT: str = "plumbpro-ai"
+    LANGCHAIN_PROJECT: str = "service-pro-ai"
 
     # --- Observability ---
     SENTRY_DSN: Optional[str] = None

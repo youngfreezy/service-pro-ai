@@ -13,9 +13,9 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: plumbpro
+          POSTGRES_USER: servicepro
           POSTGRES_PASSWORD: ci_test_only
-          POSTGRES_DB: plumbpro
+          POSTGRES_DB: servicepro
         ports:
           - 5433:5432
         options: >-
@@ -46,7 +46,7 @@ jobs:
 
       - name: Run backend tests
         env:
-          DATABASE_URL: postgresql://plumbpro:ci_test_only@localhost:5433/plumbpro
+          DATABASE_URL: postgresql://servicepro:ci_test_only@localhost:5433/servicepro
           REDIS_URL: redis://localhost:6379
           NEXTAUTH_SECRET: test-secret-for-ci
           LLM_PROVIDER: anthropic

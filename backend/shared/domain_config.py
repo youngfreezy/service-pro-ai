@@ -16,7 +16,7 @@ class DomainConfig(BaseModel):
 
     # Business identity
     business_type: str  # "plumbing", "hvac", "electrical", "landscaping", etc.
-    app_name: str  # "PlumbPro AI", "HVAC Pro AI", etc.
+    app_name: str  # "ServicePro AI", "HVAC Pro AI", etc.
     tagline: str  # "AI-powered plumbing business management"
 
     # Terminology (customizable labels)
@@ -71,7 +71,7 @@ def _load_default_plumbing_config() -> DomainConfig:
     """Default plumbing configuration."""
     return DomainConfig(
         business_type="plumbing",
-        app_name="PlumbPro AI",
+        app_name="ServicePro AI",
         tagline="AI-powered plumbing business management",
         labels={
             "technician": "Plumber",

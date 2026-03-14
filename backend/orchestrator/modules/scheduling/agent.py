@@ -1,4 +1,4 @@
-"""Scheduling agent configuration for PlumbPro AI.
+"""Scheduling agent configuration for ServicePro AI.
 
 Defines the system prompt and tool set for the scheduling ReAct agent.
 The ``run_react_agent`` runner calls ``get_system_prompt()`` and

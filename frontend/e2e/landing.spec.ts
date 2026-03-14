@@ -5,7 +5,7 @@ test.describe("Landing Page", () => {
     page,
   }) => {
     await page.goto("/");
-    await expect(page).toHaveTitle(/PlumbPro/);
+    await expect(page).toHaveTitle(/ServicePro/);
     await expect(
       page.getByRole("heading", { level: 1 }).first()
     ).toBeVisible();

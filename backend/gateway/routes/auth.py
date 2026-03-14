@@ -15,6 +15,8 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
+import re
+
 import bcrypt
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -25,6 +27,19 @@ from backend.shared.db import get_connection
 logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["auth"])
+
+
+@router.get("/api/csrf-token")
+async def csrf_token(request: Request):
+    """Return the CSRF token so the frontend can include it in headers.
+
+    The CSRF middleware sets the cookie on every GET response, so we just
+    read it back from the request (or generate a fresh one if absent).
+    """
+    import secrets as _secrets
+
+    token = request.cookies.get("csrf_token") or _secrets.token_urlsafe(32)
+    return {"csrf_token": token}
 
 
 # ---------------------------------------------------------------------------
@@ -97,6 +112,10 @@ async def register(body: RegisterRequest):
     now = datetime.now(timezone.utc)
     password_hash = _hash_password(body.password)
 
+    # Generate a URL-friendly slug from the company name
+    slug_base = re.sub(r"[^a-z0-9]+", "-", body.company_name.lower()).strip("-")
+    slug = slug_base or "company"
+
     with get_connection() as conn:
         # Check if email already exists
         cur = conn.execute(
@@ -106,18 +125,23 @@ async def register(body: RegisterRequest):
         if cur.fetchone():
             raise HTTPException(status_code=409, detail="Email already registered")
 
+        # Ensure slug is unique
+        cur = conn.execute("SELECT id FROM companies WHERE slug = %s", (slug,))
+        if cur.fetchone():
+            slug = f"{slug}-{uuid.uuid4().hex[:6]}"
+
         # Create company
         conn.execute(
-            """INSERT INTO companies (id, name, created_at, updated_at)
+            """INSERT INTO companies (id, name, slug, owner_email)
                VALUES (%s, %s, %s, %s)""",
-            (company_id, body.company_name, now, now),
+            (company_id, body.company_name, slug, body.email),
         )
 
         # Create owner user
         conn.execute(
-            """INSERT INTO users (id, company_id, email, password_hash, name, role, created_at, updated_at)
-               VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-            (user_id, company_id, body.email, password_hash, body.name, "owner", now, now),
+            """INSERT INTO users (id, company_id, email, name, role, password_hash)
+               VALUES (%s, %s, %s, %s, %s, %s)""",
+            (user_id, company_id, body.email, body.name, "owner", password_hash),
         )
         conn.commit()
 
@@ -237,9 +261,9 @@ async def invite_team_member(body: InviteRequest, request: Request):
 
     with get_connection() as conn:
         conn.execute(
-            """INSERT INTO users (id, company_id, email, password_hash, name, role, created_at, updated_at)
-               VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-            (user_id, company_id, body.email, password_hash, body.name, body.role, now, now),
+            """INSERT INTO users (id, company_id, email, name, role, password_hash)
+               VALUES (%s, %s, %s, %s, %s, %s)""",
+            (user_id, company_id, body.email, body.name, body.role, password_hash),
         )
         conn.commit()
 

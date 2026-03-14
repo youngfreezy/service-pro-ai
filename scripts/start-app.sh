@@ -17,9 +17,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-log()  { echo -e "${GREEN}[plumbpro]${NC} $*"; }
-warn() { echo -e "${YELLOW}[plumbpro]${NC} $*"; }
-err()  { echo -e "${RED}[plumbpro]${NC} $*"; }
+log()  { echo -e "${GREEN}[servicepro]${NC} $*"; }
+warn() { echo -e "${YELLOW}[servicepro]${NC} $*"; }
+err()  { echo -e "${RED}[servicepro]${NC} $*"; }
 
 # ---------- cleanup on exit ----------
 BACKEND_PID=""
@@ -63,7 +63,7 @@ if [ "$SKIP_DOCKER" = false ]; then
   log "Waiting for Postgres..."
   TRIES=0
   MAX_TRIES=30
-  while ! docker compose exec -T postgres pg_isready -U "${POSTGRES_USER:-plumbpro}" -d "${POSTGRES_DB:-plumbpro}" >/dev/null 2>&1; do
+  while ! docker compose exec -T postgres pg_isready -U "${POSTGRES_USER:-servicepro}" -d "${POSTGRES_DB:-servicepro}" >/dev/null 2>&1; do
     TRIES=$((TRIES + 1))
     if [ "$TRIES" -ge "$MAX_TRIES" ]; then
       err "Postgres failed to become ready after ${MAX_TRIES}s."

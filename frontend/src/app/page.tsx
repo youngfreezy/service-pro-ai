@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getAppName } from "@/lib/domain";
 
 const features = [
   {
@@ -67,6 +68,8 @@ const features = [
 ];
 
 export default function LandingPage() {
+  const appName = getAppName();
+
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -76,7 +79,7 @@ export default function LandingPage() {
             <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
               <Wrench className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold">PlumbPro AI</span>
+            <span className="text-xl font-bold">{appName}</span>
           </div>
           <div className="flex items-center gap-3">
             <Link href="/login">
@@ -101,7 +104,7 @@ export default function LandingPage() {
               <span className="text-gradient">Business Management</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              From scheduling and diagnostics to estimates and permits, PlumbPro AI
+              From scheduling and diagnostics to estimates and permits, {appName}{" "}
               handles the business side so you can focus on the work. One intelligent
               platform for your entire operation.
             </p>
@@ -181,10 +184,10 @@ export default function LandingPage() {
             <div className="w-6 h-6 rounded gradient-primary flex items-center justify-center">
               <Wrench className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="font-semibold">PlumbPro AI</span>
+            <span className="font-semibold">{appName}</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} PlumbPro AI. All rights reserved.
+            &copy; {new Date().getFullYear()} {appName}. All rights reserved.
           </p>
         </div>
       </footer>

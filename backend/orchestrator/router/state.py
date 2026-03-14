@@ -1,4 +1,4 @@
-"""PlumbPro LangGraph state definition.
+"""ServicePro LangGraph state definition.
 
 Defines the typed state schema used by the thin LangGraph router that
 sits in front of the ReAct module agents.
@@ -17,8 +17,8 @@ def _merge_dicts(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
     return {**a, **b}
 
 
-class PlumbProState(TypedDict):
-    """State schema for the PlumbPro orchestrator graph.
+class ServiceProState(TypedDict):
+    """State schema for the ServicePro orchestrator graph.
 
     Attributes
     ----------

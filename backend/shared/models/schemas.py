@@ -1,4 +1,4 @@
-"""PlumbPro AI Pydantic models and enums for the plumbing business platform."""
+"""ServicePro AI Pydantic models and enums for the field service business platform."""
 
 from __future__ import annotations
 

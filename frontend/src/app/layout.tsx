@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PlumbPro AI",
+  title: "ServicePro AI",
   description: "AI-powered plumbing business management",
 };
 

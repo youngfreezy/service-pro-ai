@@ -9,6 +9,7 @@ import { Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { getAppName } from "@/lib/domain";
 
 const loginSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Email is required"),
@@ -17,6 +18,7 @@ const loginSchema = Yup.object({
 
 export default function LoginPage() {
   const router = useRouter();
+  const appName = getAppName();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4">
@@ -27,7 +29,7 @@ export default function LoginPage() {
             <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
               <Wrench className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold">PlumbPro AI</span>
+            <span className="text-2xl font-bold">{appName}</span>
           </Link>
           <h1 className="text-2xl font-bold">Welcome back</h1>
           <p className="text-muted-foreground mt-1">

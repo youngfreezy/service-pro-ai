@@ -1,4 +1,4 @@
-"""Scheduling tools for the PlumbPro scheduling ReAct agent.
+"""Scheduling tools for the ServicePro scheduling ReAct agent.
 
 Each tool is decorated with ``@tool`` so LangChain can extract the name,
 description (from the docstring), and parameter schema automatically.
