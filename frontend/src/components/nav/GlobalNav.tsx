@@ -59,42 +59,15 @@ export default function GlobalNav() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur-sm">
-      <div className="flex items-center justify-between h-14 px-4">
-        {/* Branding */}
+    <header className="sticky top-0 z-40 bg-card/95 backdrop-blur-sm">
+      {/* Top bar: logo + user menu */}
+      <div className="flex items-center justify-between h-14 px-4 border-b">
         <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
           <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
             <Wrench className="w-5 h-5 text-white" />
           </div>
-          <span className="font-bold text-lg hidden sm:inline">{appName}</span>
+          <span className="font-bold text-lg">{appName}</span>
         </Link>
-
-        {/* Nav Links - horizontal scroll on mobile */}
-        <nav className="flex-1 mx-4 overflow-x-auto scrollbar-hide">
-          <ul className="flex items-center gap-1 min-w-max">
-            {navItems.map((item) => {
-              const isActive =
-                pathname === item.href ||
-                (item.href !== "/dashboard" && pathname.startsWith(item.href));
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap",
-                      isActive
-                        ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                    )}
-                  >
-                    <item.icon className="w-4 h-4" />
-                    <span className="hidden lg:inline">{item.label}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
 
         {/* User menu */}
         <div className="relative shrink-0" ref={menuRef}>
@@ -131,6 +104,33 @@ export default function GlobalNav() {
           )}
         </div>
       </div>
+
+      {/* Sub-nav */}
+      <nav className="border-b px-4">
+        <ul className="flex items-center gap-1 flex-wrap py-1.5">
+          {navItems.map((item) => {
+            const isActive =
+              pathname === item.href ||
+              (item.href !== "/dashboard" && pathname.startsWith(item.href));
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap",
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  )}
+                >
+                  <item.icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
     </header>
   );
 }

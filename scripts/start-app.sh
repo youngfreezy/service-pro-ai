@@ -93,16 +93,14 @@ fi
 
 # ---------- Backend ----------
 log "Starting backend on :8000..."
-if [ ! -d "$PROJECT_ROOT/backend/venv" ]; then
+VENV="$PROJECT_ROOT/backend/venv"
+if [ ! -d "$VENV" ]; then
   warn "No venv found. Creating one..."
-  python3.11 -m venv "$PROJECT_ROOT/backend/venv"
-  source "$PROJECT_ROOT/backend/venv/bin/activate"
-  pip install -r "$PROJECT_ROOT/backend/requirements.txt"
-else
-  source "$PROJECT_ROOT/backend/venv/bin/activate"
+  python3.11 -m venv "$VENV"
+  "$VENV/bin/pip" install -r "$PROJECT_ROOT/backend/requirements.txt"
 fi
 cd "$PROJECT_ROOT"
-uvicorn backend.gateway.main:app --host 0.0.0.0 --port 8000 --reload &
+"$VENV/bin/uvicorn" backend.gateway.main:app --host 0.0.0.0 --port 8000 --reload &
 BACKEND_PID=$!
 
 # ---------- Frontend ----------

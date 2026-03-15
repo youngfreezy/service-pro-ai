@@ -39,8 +39,8 @@ def get_url() -> str:
     if url.startswith("postgresql+asyncpg"):
         url = url.replace("postgresql+asyncpg", "postgresql+psycopg", 1)
     elif url.startswith("postgresql://"):
-        # Default psycopg driver works fine.
-        pass
+        # Force psycopg v3 driver (psycopg2 is not installed).
+        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
     return url
 
 
